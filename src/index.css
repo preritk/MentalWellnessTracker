@@ -1,0 +1,141 @@
+/* ---- Fonts (must precede other @import rules) ---- */
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&family=Fraunces:opsz,wght@9..144,500;9..144,600&display=swap');
+@import 'tailwindcss';
+
+/* ---- Design tokens (Tailwind v4 @theme) ---- */
+@theme {
+  --font-sans: 'Nunito', ui-sans-serif, system-ui, sans-serif;
+  --font-display: 'Fraunces', ui-serif, Georgia, serif;
+
+  /* Calm brand palette: muted teal -> warm lilac */
+  --color-mist-50: #f3f8f8;
+  --color-mist-100: #e3f0f0;
+  --color-brand-300: #8fd1cb;
+  --color-brand-400: #5fb8b1;
+  --color-brand-500: #3a9d96;
+  --color-brand-600: #2c7d78;
+  --color-lilac-300: #c9bdf0;
+  --color-lilac-400: #ab98e6;
+  --color-lilac-500: #8f78d6;
+
+  /* Mood spectrum (color is paired with word + emoji, never color-only) */
+  --color-mood-drained: #b08ad6;
+  --color-mood-low: #7f9cd6;
+  --color-mood-okay: #6cc1c4;
+  --color-mood-steady: #6fc59b;
+  --color-mood-bright: #f0c264;
+
+  --radius-2xl: 1.25rem;
+  --radius-3xl: 1.75rem;
+
+  --shadow-soft: 0 10px 40px -12px rgb(44 125 120 / 0.25);
+  --shadow-card: 0 4px 24px -8px rgb(60 60 90 / 0.18);
+}
+
+/* ---- Theme surfaces (light / dark) ---- */
+:root {
+  --surface: #ffffff;
+  --surface-translucent: rgb(255 255 255 / 0.72);
+  --ink: #1f2a37;
+  --ink-soft: #56636f;
+  --hairline: rgb(31 42 55 / 0.10);
+  --page-grad-a: #e8f4f2;
+  --page-grad-b: #eef0fb;
+  --page-grad-c: #f7f1ec;
+  color-scheme: light;
+}
+
+.dark {
+  --surface: #1a2030;
+  --surface-translucent: rgb(30 38 56 / 0.66);
+  --ink: #eef2f8;
+  --ink-soft: #aab4c5;
+  --hairline: rgb(255 255 255 / 0.10);
+  --page-grad-a: #16202e;
+  --page-grad-b: #1d1b2e;
+  --page-grad-c: #221c28;
+  color-scheme: dark;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  color: var(--ink);
+  background: var(--page-grad-b);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* ---- Ambient animated gradient (calming, slow) ---- */
+@keyframes drift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.ambient-bg {
+  background: linear-gradient(
+    125deg,
+    var(--page-grad-a),
+    var(--page-grad-b),
+    var(--page-grad-c),
+    var(--page-grad-a)
+  );
+  background-size: 300% 300%;
+  animation: drift 28s ease-in-out infinite;
+}
+
+/* ---- Reusable surface utilities ---- */
+@utility glass {
+  background: var(--surface-translucent);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid var(--hairline);
+}
+
+/* ---- Accessibility: focus + reduced motion ---- */
+:where(a, button, input, textarea, select, [tabindex]):focus-visible {
+  outline: 3px solid var(--color-brand-400);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+.skip-link {
+  position: absolute;
+  left: 0.75rem;
+  top: -3rem;
+  z-index: 100;
+  padding: 0.5rem 1rem;
+  border-radius: 0.75rem;
+  background: var(--color-brand-600);
+  color: #fff;
+  transition: top 0.18s ease;
+}
+.skip-link:focus {
+  top: 0.75rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+  .ambient-bg {
+    animation: none;
+  }
+}
