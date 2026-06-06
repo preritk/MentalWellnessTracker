@@ -32,6 +32,7 @@ const PATTERNS: Record<Pattern, Phase[]> = {
 const ORB_GRADIENT =
   'radial-gradient(circle at 35% 30%, var(--color-brand-400), var(--color-lilac-400))'
 
+/** Guided breathing orb that cycles inhale/hold/exhale phases (4-7-8 or box). */
 export default function BreathingExercise({ pattern = '478' }: { pattern?: Pattern }) {
   const { t } = useT()
   const reduceMotion = useReducedMotion()

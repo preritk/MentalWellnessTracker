@@ -1,3 +1,4 @@
+// English/Hindi string dictionaries and the translation helpers/hook.
 import { useStore, type Language, type Mood } from './storage'
 
 type Dict = Record<string, string>
@@ -126,20 +127,25 @@ const en: Dict = {
   'settings.darkMode': 'Dark mode',
   'settings.reducedMotion': 'Reduce motion',
   'settings.sharing': 'Share encouragement signals',
-  'settings.sharingHint': 'Off by default. Even when on, only “you checked in this week” — never your moods or journal.',
+  'settings.sharingHint':
+    'Off by default. Even when on, only “you checked in this week” — never your moods or journal.',
   'settings.seed': 'Load sample data (for demo)',
   'settings.seedClear': 'Clear sample data',
   'settings.export': 'Export my data (JSON)',
   'settings.delete': 'Delete everything',
-  'settings.deleteConfirm': 'This erases all your data on this device. This cannot be undone. Continue?',
+  'settings.deleteConfirm':
+    'This erases all your data on this device. This cannot be undone. Continue?',
   'settings.signout': 'Clear this device',
-  'settings.privacyNote': 'Everything you write lives only in this tab and is wiped when you close it. We have no server and no account.',
+  'settings.privacyNote':
+    'Everything you write lives only in this tab and is wiped when you close it. We have no server and no account.',
 
   // crisis
   'crisis.title': 'You deserve real support',
-  'crisis.body': 'If things feel like too much, please reach a person who can help. These lines are free, confidential, and open now.',
+  'crisis.body':
+    'If things feel like too much, please reach a person who can help. These lines are free, confidential, and open now.',
   'crisis.call': 'Call',
-  'crisis.disclaimer': 'MindMitra is a companion, not a doctor or a crisis service. In an emergency, call 112.',
+  'crisis.disclaimer':
+    'MindMitra is a companion, not a doctor or a crisis service. In an emergency, call 112.',
 
   // onboarding
   'onb.welcome': 'Welcome',
@@ -150,9 +156,11 @@ const en: Dict = {
   'onb.examDate': 'When is your exam? (optional)',
   'onb.resultDate': 'Result date, if you know it (optional)',
   'onb.isnt': 'What this is — and isn’t',
-  'onb.isnt.private': 'Private by default. No account, no server — your words stay in this tab and clear when you close it.',
+  'onb.isnt.private':
+    'Private by default. No account, no server — your words stay in this tab and clear when you close it.',
   'onb.isnt.notParent': 'Not a parent or coaching dashboard. Nobody is watching you here.',
-  'onb.isnt.notTherapy': 'Not therapy or a diagnosis. A companion that helps you reflect and points you to real help when you need it.',
+  'onb.isnt.notTherapy':
+    'Not therapy or a diagnosis. A companion that helps you reflect and points you to real help when you need it.',
   'onb.tryFirst': 'Try a check-in',
   'onb.finish': 'Enter MindMitra',
 }
@@ -269,19 +277,24 @@ const hi: Dict = {
   'settings.darkMode': 'डार्क मोड',
   'settings.reducedMotion': 'एनिमेशन कम करें',
   'settings.sharing': 'प्रोत्साहन संकेत साझा करें',
-  'settings.sharingHint': 'डिफ़ॉल्ट रूप से बंद। चालू होने पर भी सिर्फ़ “इस हफ़्ते चेक-इन किया” — कभी आपका मूड या जर्नल नहीं।',
+  'settings.sharingHint':
+    'डिफ़ॉल्ट रूप से बंद। चालू होने पर भी सिर्फ़ “इस हफ़्ते चेक-इन किया” — कभी आपका मूड या जर्नल नहीं।',
   'settings.seed': 'सैंपल डेटा लोड करें (डेमो के लिए)',
   'settings.seedClear': 'सैंपल डेटा हटाएँ',
   'settings.export': 'मेरा डेटा एक्सपोर्ट करें (JSON)',
   'settings.delete': 'सब कुछ हटाएँ',
-  'settings.deleteConfirm': 'यह इस डिवाइस का सारा डेटा मिटा देगा। इसे वापस नहीं लाया जा सकता। जारी रखें?',
+  'settings.deleteConfirm':
+    'यह इस डिवाइस का सारा डेटा मिटा देगा। इसे वापस नहीं लाया जा सकता। जारी रखें?',
   'settings.signout': 'यह डिवाइस साफ़ करें',
-  'settings.privacyNote': 'आप जो भी लिखते हैं वह सिर्फ़ इसी टैब में रहता है और टैब बंद करते ही मिट जाता है। न कोई सर्वर, न कोई अकाउंट।',
+  'settings.privacyNote':
+    'आप जो भी लिखते हैं वह सिर्फ़ इसी टैब में रहता है और टैब बंद करते ही मिट जाता है। न कोई सर्वर, न कोई अकाउंट।',
 
   'crisis.title': 'आप असली सहारे के हक़दार हैं',
-  'crisis.body': 'अगर सब कुछ बहुत ज़्यादा लग रहा है, तो किसी ऐसे इंसान से बात करें जो मदद कर सके। ये लाइनें मुफ़्त, गोपनीय और अभी उपलब्ध हैं।',
+  'crisis.body':
+    'अगर सब कुछ बहुत ज़्यादा लग रहा है, तो किसी ऐसे इंसान से बात करें जो मदद कर सके। ये लाइनें मुफ़्त, गोपनीय और अभी उपलब्ध हैं।',
   'crisis.call': 'कॉल करें',
-  'crisis.disclaimer': 'MindMitra एक साथी है, डॉक्टर या क्राइसिस सेवा नहीं। आपात स्थिति में 112 पर कॉल करें।',
+  'crisis.disclaimer':
+    'MindMitra एक साथी है, डॉक्टर या क्राइसिस सेवा नहीं। आपात स्थिति में 112 पर कॉल करें।',
 
   'onb.welcome': 'स्वागत है',
   'onb.intro': 'तैयारी, परीक्षा और परिणाम के दौरान अपनी भावनाओं को सहेजने की एक शांत, निजी जगह।',
@@ -291,9 +304,11 @@ const hi: Dict = {
   'onb.examDate': 'आपकी परीक्षा कब है? (वैकल्पिक)',
   'onb.resultDate': 'रिज़ल्ट की तारीख़, अगर पता हो (वैकल्पिक)',
   'onb.isnt': 'यह क्या है — और क्या नहीं',
-  'onb.isnt.private': 'डिफ़ॉल्ट रूप से निजी। न अकाउंट, न सर्वर — आपके शब्द इसी टैब में रहते हैं और बंद करते ही मिट जाते हैं।',
+  'onb.isnt.private':
+    'डिफ़ॉल्ट रूप से निजी। न अकाउंट, न सर्वर — आपके शब्द इसी टैब में रहते हैं और बंद करते ही मिट जाते हैं।',
   'onb.isnt.notParent': 'न माता-पिता, न कोचिंग का डैशबोर्ड। यहाँ कोई आप पर नज़र नहीं रखता।',
-  'onb.isnt.notTherapy': 'न थेरेपी, न निदान। एक साथी जो सोचने में मदद करता है और ज़रूरत पर असली मदद की ओर इशारा करता है।',
+  'onb.isnt.notTherapy':
+    'न थेरेपी, न निदान। एक साथी जो सोचने में मदद करता है और ज़रूरत पर असली मदद की ओर इशारा करता है।',
   'onb.tryFirst': 'एक चेक-इन आज़माएँ',
   'onb.finish': 'MindMitra में प्रवेश करें',
 }
@@ -311,6 +326,7 @@ export function translate(lang: Language, key: string, params?: Record<string, s
   return s
 }
 
+/** A bound translation function: takes a key and optional interpolation params. */
 export type TFn = (key: string, params?: Record<string, string>) => string
 
 /** Hook bound to the current language in the store. */
@@ -321,6 +337,7 @@ export function useT(): { t: TFn; lang: Language } {
   return { t, lang }
 }
 
+/** Localized display label for a mood. */
 export function moodLabel(lang: Language, mood: Mood): string {
   return translate(lang, `mood.${mood}`)
 }

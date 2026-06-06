@@ -28,10 +28,29 @@ export function Layout() {
 
   const openCrisis = useCallback(() => setCrisisOpen(true), [])
 
-  // Reflect theme preferences onto <html>.
+  // Reflect theme + motion preferences onto <html>.
   useEffect(() => {
     document.documentElement.classList.toggle('dark', store.settings.darkMode)
   }, [store.settings.darkMode])
+
+  useEffect(() => {
+    document.documentElement.classList.toggle('reduce-motion', store.settings.reducedMotion)
+  }, [store.settings.reducedMotion])
+
+  // Keep the document language in sync so screen readers pronounce Hindi correctly (WCAG 3.1.1).
+  useEffect(() => {
+    document.documentElement.lang = store.profile.language
+  }, [store.profile.language])
+
+  // On route change, move focus to the page's main heading so keyboard and
+  // screen-reader users start from the top of the new content (WCAG 2.4.3).
+  useEffect(() => {
+    const heading = document.querySelector<HTMLElement>('#main h1')
+    if (heading) {
+      heading.setAttribute('tabindex', '-1')
+      heading.focus({ preventScroll: false })
+    }
+  }, [location.pathname])
 
   const phase = getPhase(store.profile, Date.now())
 

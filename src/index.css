@@ -37,8 +37,9 @@
   --surface: #ffffff;
   --surface-translucent: rgb(255 255 255 / 0.72);
   --ink: #1f2a37;
-  --ink-soft: #56636f;
-  --hairline: rgb(31 42 55 / 0.10);
+  /* #475569 meets WCAG AA (>=4.5:1) for small text on white/glass surfaces. */
+  --ink-soft: #475569;
+  --hairline: rgb(31 42 55 / 0.1);
   --page-grad-a: #e8f4f2;
   --page-grad-b: #eef0fb;
   --page-grad-c: #f7f1ec;
@@ -50,7 +51,7 @@
   --surface-translucent: rgb(30 38 56 / 0.66);
   --ink: #eef2f8;
   --ink-soft: #aab4c5;
-  --hairline: rgb(255 255 255 / 0.10);
+  --hairline: rgb(255 255 255 / 0.1);
   --page-grad-a: #16202e;
   --page-grad-b: #1d1b2e;
   --page-grad-c: #221c28;
@@ -138,4 +139,16 @@ body {
   .ambient-bg {
     animation: none;
   }
+}
+
+/* Honour the in-app "Reduce motion" setting even when the OS preference is off. */
+.reduce-motion *,
+.reduce-motion *::before,
+.reduce-motion *::after {
+  animation-duration: 0.001ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.001ms !important;
+}
+.reduce-motion .ambient-bg {
+  animation: none;
 }

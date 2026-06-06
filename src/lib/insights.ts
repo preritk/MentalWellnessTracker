@@ -1,3 +1,4 @@
+// Derived analytics over check-in history: mood trends, trigger stats, weekly digest.
 import { type CheckIn, type Mood, moodScore } from './storage'
 
 const DAY = 24 * 60 * 60 * 1000
@@ -8,6 +9,7 @@ function dayKey(ts: number): string {
   return d.toISOString().slice(0, 10)
 }
 
+/** One day on the mood chart; `score` is null on days with no check-in. */
 export interface MoodPoint {
   day: string // yyyy-mm-dd
   label: string // e.g. '12 Jun'
@@ -47,6 +49,7 @@ export function moodSeries(checkIns: CheckIn[], now: number, days = 21): MoodPoi
   return out
 }
 
+/** Aggregated frequency and intensity for one trigger. */
 export interface TriggerStat {
   id: string
   count: number
@@ -77,6 +80,7 @@ export function triggerStats(checkIns: CheckIn[], sinceDays = 30, now = Date.now
     .sort((a, b) => b.count - a.count)
 }
 
+/** Coping-focused summary of the past week's check-ins. */
 export interface WeeklyDigest {
   checkInDays: number
   avgScore: number | null

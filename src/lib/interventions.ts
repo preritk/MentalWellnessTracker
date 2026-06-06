@@ -1,6 +1,8 @@
+// Micro-intervention library and the transparent rules engine that selects one.
 import type { Language, Mood } from './storage'
 import type { Phase } from './phase'
 
+/** Category of coping micro-intervention. */
 export type InterventionKind =
   | 'breathing'
   | 'reframe'
@@ -11,6 +13,7 @@ export type InterventionKind =
   | 'rest'
   | 'human'
 
+/** A single suggestible coping action with localized copy. */
 export interface Intervention {
   id: string
   kind: InterventionKind
@@ -130,10 +133,12 @@ export const INTERVENTIONS: Intervention[] = [
 ]
 
 const BY_ID = new Map(INTERVENTIONS.map((i) => [i.id, i]))
+/** Look up an intervention by id, or undefined if unknown. */
 export function getIntervention(id: string): Intervention | undefined {
   return BY_ID.get(id)
 }
 
+/** Inputs the rules engine weighs when choosing an intervention. */
 export interface PickContext {
   mood: Mood
   triggers: string[]

@@ -103,6 +103,7 @@ export default function ResultMode() {
                       </div>
                       <a
                         href={`tel:${h.number}`}
+                        aria-label={`Call ${h.name} at ${h.number}`}
                         className="shrink-0 rounded-2xl bg-[var(--color-brand-600)] px-4 py-2 text-sm font-semibold text-white hover:bg-[var(--color-brand-500)]"
                       >
                         {t('crisis.call')} {h.number}

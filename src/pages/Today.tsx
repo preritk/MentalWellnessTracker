@@ -10,6 +10,7 @@ import { useCrisis } from '../components/Layout'
 import MoodPicker from '../components/MoodPicker'
 import { Button, Card, EmptyState, SectionTitle, stagger } from '../components/ui'
 
+/** Today page — daily mood check-in, a "right now" intervention, and a quick insight. */
 export default function Today() {
   const [store, update] = useStore()
   const { t, lang } = useT()
@@ -35,12 +36,7 @@ export default function Today() {
 
   const digest = useMemo(() => weeklyDigest(checkIns, now), [checkIns, now])
 
-  function handleSubmit(ci: {
-    mood: Mood
-    triggers: string[]
-    intensity: number
-    note: string
-  }) {
+  function handleSubmit(ci: { mood: Mood; triggers: string[]; intensity: number; note: string }) {
     const checkIn: CheckIn = { id: makeId(), ts: Date.now(), ...ci }
     update((s) => ({ ...s, checkIns: [...s.checkIns, checkIn] }))
     setJustCheckedIn(true)
@@ -70,7 +66,10 @@ export default function Today() {
             <Card>
               <SectionTitle>{t('today.checkInPrompt')}</SectionTitle>
               <MoodPicker onSubmit={handleSubmit} lastMood={latest?.mood} />
-              <p aria-live="polite" className="mt-3 min-h-[1.25rem] text-sm text-[var(--color-brand-600)]">
+              <p
+                aria-live="polite"
+                className="mt-3 min-h-[1.25rem] text-sm text-[var(--color-brand-600)]"
+              >
                 {justCheckedIn ? t('today.checkedIn') : ''}
               </p>
             </Card>
@@ -108,9 +107,7 @@ export default function Today() {
                     <h3 className="text-base font-semibold text-[var(--ink)]">
                       {intervention.title[lang]}
                     </h3>
-                    <p className="mt-1 text-sm text-[var(--ink-soft)]">
-                      {intervention.body[lang]}
-                    </p>
+                    <p className="mt-1 text-sm text-[var(--ink-soft)]">{intervention.body[lang]}</p>
                     {intervention.durationMin > 0 && (
                       <p className="mt-1 text-xs text-[var(--ink-soft)]">
                         {intervention.durationMin} {t('toolkit.minutes')}

@@ -22,8 +22,8 @@ if (!window.matchMedia) {
 
 // jsdom doesn't implement canvas; axe-core's icon-ligature check probes getContext.
 // jsdom defines getContext but throws "Not implemented"; axe-core probes it. Stub it.
-HTMLCanvasElement.prototype.getContext =
-  (() => null) as typeof HTMLCanvasElement.prototype.getContext
+HTMLCanvasElement.prototype.getContext = (() =>
+  null) as typeof HTMLCanvasElement.prototype.getContext
 
 // jsdom lacks ResizeObserver, which recharts ResponsiveContainer relies on.
 if (!('ResizeObserver' in window)) {

@@ -3,16 +3,7 @@ import { motion } from 'framer-motion'
 import { useStore, makeId, type JournalEntry } from '../lib/storage'
 import { useT } from '../lib/i18n'
 import { getPhase, type Phase } from '../lib/phase'
-import {
-  Card,
-  SectionTitle,
-  Button,
-  Chip,
-  EmptyState,
-  cx,
-  riseIn,
-  stagger,
-} from '../components/ui'
+import { Card, SectionTitle, Button, Chip, EmptyState, cx, riseIn, stagger } from '../components/ui'
 
 type Mode = 'guided' | 'free'
 
@@ -68,6 +59,7 @@ function formatSeal(iso: string): string {
   return formatDate(t)
 }
 
+/** Journal page — guided/free reflection with keep-or-burn, plus a sealed letter to future self. */
 export default function Journal() {
   const { t } = useT()
   const [store, update] = useStore()
@@ -82,10 +74,7 @@ export default function Journal() {
 
   const [letter, setLetter] = useState<string>('')
 
-  const entries = useMemo(
-    () => [...store.journal].sort((a, b) => b.ts - a.ts),
-    [store.journal],
-  )
+  const entries = useMemo(() => [...store.journal].sort((a, b) => b.ts - a.ts), [store.journal])
 
   function selectMode(next: Mode) {
     setMode(next)
@@ -136,11 +125,7 @@ export default function Journal() {
 
       <Card className="flex flex-col gap-4">
         {/* Mode toggle */}
-        <div
-          role="group"
-          aria-label={t('journal.title')}
-          className="flex flex-wrap gap-2"
-        >
+        <div role="group" aria-label={t('journal.title')} className="flex flex-wrap gap-2">
           <Chip active={mode === 'guided'} onClick={() => selectMode('guided')}>
             {t('journal.guided')}
           </Chip>
@@ -152,9 +137,7 @@ export default function Journal() {
         {/* Guided prompts */}
         {mode === 'guided' && (
           <fieldset className="flex flex-col gap-2 border-0 p-0">
-            <legend className="mb-1 text-sm text-[var(--ink-soft)]">
-              {t('journal.guided')}
-            </legend>
+            <legend className="mb-1 text-sm text-[var(--ink-soft)]">{t('journal.guided')}</legend>
             <div className="flex flex-col gap-2">
               {prompts.map((p) => {
                 const isActive = prompt === p
@@ -221,9 +204,7 @@ export default function Journal() {
 
       {/* Sealed letter */}
       <Card className="flex flex-col gap-4">
-        <SectionTitle sub={t('journal.letterHint')}>
-          {t('journal.letterTitle')}
-        </SectionTitle>
+        <SectionTitle sub={t('journal.letterHint')}>{t('journal.letterTitle')}</SectionTitle>
 
         {sealed ? (
           <div className="flex flex-col items-center gap-2 rounded-2xl border border-[var(--hairline)] bg-[var(--color-brand-300)]/15 py-8 text-center">

@@ -1,12 +1,7 @@
 import { useState, type ReactNode } from 'react'
 import { motion } from 'framer-motion'
 import { useNavigate } from 'react-router-dom'
-import {
-  useStore,
-  clearStore,
-  defaultStore,
-  type Language,
-} from '../lib/storage'
+import { useStore, clearStore, defaultStore, type Language } from '../lib/storage'
 import { applySeed, clearSeed } from '../lib/seed'
 import { useT } from '../lib/i18n'
 import { Card, SectionTitle, Button, cx, stagger } from '../components/ui'
@@ -22,21 +17,28 @@ interface SwitchRowProps {
   onChange: () => void
 }
 
+/** A keyboard-operable on/off toggle with role="switch" and an associated label/hint. */
 function SwitchRow({ label, hint, checked, onChange }: SwitchRowProps) {
   const labelId = `switch-label-${label.replace(/\s+/g, '-').toLowerCase()}`
+  const hintId = `switch-hint-${label.replace(/\s+/g, '-').toLowerCase()}`
   return (
     <div className="flex items-start justify-between gap-4 py-2">
       <div className="min-w-0">
         <span id={labelId} className="text-sm font-medium text-[var(--ink)]">
           {label}
         </span>
-        {hint && <p className="mt-1 text-xs text-[var(--ink-soft)]">{hint}</p>}
+        {hint && (
+          <p id={hintId} className="mt-1 text-xs text-[var(--ink-soft)]">
+            {hint}
+          </p>
+        )}
       </div>
       <button
         type="button"
         role="switch"
         aria-checked={checked}
         aria-labelledby={labelId}
+        aria-describedby={hint ? hintId : undefined}
         onClick={onChange}
         className={cx(
           'relative inline-flex h-6 w-11 shrink-0 items-center rounded-full',
@@ -61,6 +63,7 @@ function SwitchRow({ label, hint, checked, onChange }: SwitchRowProps) {
 // Settings — "You & Privacy". Privacy is the hero.
 // ---------------------------------------------------------------------------
 
+/** Settings page — language, appearance, data sharing, demo data, and export/delete. */
 export default function Settings() {
   const [store, update] = useStore()
   const { t } = useT()
@@ -117,9 +120,7 @@ export default function Settings() {
             <span className="text-2xl" aria-hidden>
               🔒
             </span>
-            <p className="text-sm leading-relaxed text-[var(--ink)]">
-              {t('settings.privacyNote')}
-            </p>
+            <p className="text-sm leading-relaxed text-[var(--ink)]">{t('settings.privacyNote')}</p>
           </div>
         </Card>
       </motion.div>

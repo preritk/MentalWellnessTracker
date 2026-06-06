@@ -23,20 +23,29 @@ interface Props {
   onClose: () => void
 }
 
+/** Modal dialog listing verified crisis helplines, with a focus trap and return-focus. */
 export function CrisisModal({ open, onClose }: Props) {
   const { t } = useT()
   const closeRef = useRef<HTMLButtonElement>(null)
   const dialogRef = useRef<HTMLDivElement>(null)
+  // Remember what had focus before the dialog opened, so we can restore it on close.
+  const returnFocusRef = useRef<HTMLElement | null>(null)
 
   useEffect(() => {
     if (!open) return
+    returnFocusRef.current = document.activeElement as HTMLElement | null
     closeRef.current?.focus()
     const onKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose()
       if (e.key === 'Tab') trapFocus(e, dialogRef.current)
     }
     document.addEventListener('keydown', onKey)
-    return () => document.removeEventListener('keydown', onKey)
+    return () => {
+      document.removeEventListener('keydown', onKey)
+      // Restore focus to the trigger after the dialog has unmounted.
+      const toFocus = returnFocusRef.current
+      requestAnimationFrame(() => toFocus?.focus())
+    }
   }, [open, onClose])
 
   return (
@@ -85,6 +94,7 @@ export function CrisisModal({ open, onClose }: Props) {
                   </div>
                   <a
                     href={`tel:${h.number}`}
+                    aria-label={`Call ${h.name} at ${h.number}`}
                     className="rounded-2xl bg-[var(--color-brand-600)] px-4 py-2 text-sm font-semibold text-white hover:bg-[var(--color-brand-500)]"
                   >
                     {t('crisis.call')} {h.number}
@@ -104,7 +114,7 @@ export function CrisisModal({ open, onClose }: Props) {
               ref={closeRef}
               onClick={onClose}
               aria-label={t('common.close')}
-              className="absolute right-4 top-4 rounded-full p-1 text-[var(--ink-soft)] hover:bg-[var(--hairline)]"
+              className="absolute right-4 top-4 rounded-full p-1 text-[var(--ink)] hover:bg-[var(--hairline)]"
             >
               ✕
             </button>
@@ -115,6 +125,7 @@ export function CrisisModal({ open, onClose }: Props) {
   )
 }
 
+/** Keep Tab/Shift+Tab focus cycling within the dialog's focusable elements. */
 function trapFocus(e: KeyboardEvent, container: HTMLElement | null) {
   if (!container) return
   const focusable = container.querySelectorAll<HTMLElement>(

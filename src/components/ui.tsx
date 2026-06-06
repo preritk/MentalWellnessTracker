@@ -5,6 +5,7 @@ import type { ButtonHTMLAttributes, ReactNode } from 'react'
 // Shared design primitives — used everywhere so screens stay consistent.
 // ---------------------------------------------------------------------------
 
+/** Join truthy class-name parts into a single space-separated string. */
 export function cx(...parts: (string | false | null | undefined)[]): string {
   return parts.filter(Boolean).join(' ')
 }
@@ -34,6 +35,7 @@ interface CardProps extends HTMLMotionProps<'section'> {
   glass?: boolean
 }
 
+/** Rounded surface container with an optional glass background. */
 export function Card({ children, className, glass = true, ...rest }: CardProps) {
   return (
     <motion.section
@@ -56,6 +58,7 @@ interface SectionTitleProps {
   className?: string
 }
 
+/** Heading (h1–h3) with an optional sub-line, used to head sections. */
 export function SectionTitle({ children, sub, as = 'h2', className }: SectionTitleProps) {
   const Heading = as
   return (
@@ -89,6 +92,7 @@ const VARIANTS: Record<Variant, string> = {
   danger: 'bg-red-600/90 text-white hover:bg-red-600',
 }
 
+/** Styled button supporting primary/ghost/soft/danger variants. */
 export function Button({ variant = 'primary', className, children, ...rest }: ButtonProps) {
   return (
     <button
@@ -110,6 +114,7 @@ interface ChipProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: ReactNode
 }
 
+/** Pill-shaped toggle button; reports state via aria-pressed (or caller-supplied role). */
 export function Chip({ active, className, children, role, ...rest }: ChipProps) {
   // When used as a radio/option (role supplied), aria-pressed is invalid ARIA —
   // the caller drives state via aria-checked/aria-selected instead.

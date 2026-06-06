@@ -13,6 +13,7 @@ const TRUST_POINTS: { emoji: string; key: string }[] = [
   { emoji: '🤝', key: 'onb.isnt.notTherapy' },
 ]
 
+/** Onboarding page — collects name, exam type, and key dates, then marks the profile onboarded. */
 export default function Onboarding() {
   const { t } = useT()
   const [, update] = useStore()
@@ -132,10 +133,7 @@ export default function Onboarding() {
                 />
               </div>
               <div className="flex flex-col gap-1.5">
-                <label
-                  htmlFor="onb-result-date"
-                  className="text-sm font-medium text-[var(--ink)]"
-                >
+                <label htmlFor="onb-result-date" className="text-sm font-medium text-[var(--ink)]">
                   {t('onb.resultDate')}
                 </label>
                 <input

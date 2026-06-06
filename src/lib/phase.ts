@@ -1,5 +1,7 @@
+// Derives the student's current journey phase from their exam/result dates.
 import type { Profile } from './storage'
 
+/** Stage of the exam journey, used to tailor tone and suggestions. */
 export type Phase = 'general' | 'prep' | 'exam-week' | 'result-wait' | 'result-day'
 
 const DAY = 24 * 60 * 60 * 1000
@@ -48,12 +50,14 @@ export function getPhase(profile: Profile, now: number): Phase {
   return 'general'
 }
 
+/** A phase paired with its i18n label key. */
 export interface PhaseMeta {
   key: Phase
   /** Short banner label key for i18n. */
   labelKey: string
 }
 
+/** Wrap a phase with its banner label key for the UI. */
 export function phaseMeta(phase: Phase): PhaseMeta {
   return { key: phase, labelKey: `phase.${phase}` }
 }

@@ -47,6 +47,24 @@ describe('storage', () => {
     saveStore(s)
     expect(sessionStorage.getItem('mindmitra.v1')).toContain('Sneha')
   })
+
+  it('merges defaults back in for fields missing from a saved store', () => {
+    const partial = {
+      version: 1,
+      profile: { name: 'Ishaan' },
+      // settings is missing darkMode (and other keys) entirely.
+      settings: { sharing: true },
+    }
+    sessionStorage.setItem('mindmitra.v1', JSON.stringify(partial))
+    const loaded = loadStore()
+    // Preserved value from the saved store.
+    expect(loaded.profile.name).toBe('Ishaan')
+    expect(loaded.settings.sharing).toBe(true)
+    // Restored from defaults because it was absent.
+    expect(loaded.settings.darkMode).toBe(false)
+    expect(loaded.settings.reducedMotion).toBe(false)
+    expect(loaded.profile.onboarded).toBe(false)
+  })
 })
 
 describe('phase engine', () => {
@@ -82,7 +100,13 @@ describe('phase engine', () => {
 })
 
 describe('intervention rules engine', () => {
-  const base = { mood: 'Okay' as const, triggers: [] as string[], intensity: 5, phase: 'prep' as const, hour: 15 }
+  const base = {
+    mood: 'Okay' as const,
+    triggers: [] as string[],
+    intensity: 5,
+    phase: 'prep' as const,
+    hour: 15,
+  }
 
   it('routes severe distress to a human', () => {
     expect(pickIntervention({ ...base, mood: 'Drained', intensity: 9 }).id).toBe('human-help')
@@ -101,7 +125,27 @@ describe('intervention rules engine', () => {
   })
 
   it('offers self-compassion in result phases at high intensity', () => {
-    expect(pickIntervention({ ...base, phase: 'result-day', intensity: 8 }).id).toBe('compassion-friend')
+    expect(pickIntervention({ ...base, phase: 'result-day', intensity: 8 }).id).toBe(
+      'compassion-friend',
+    )
+  })
+
+  it('routes a sleep trigger late at night to wind-down', () => {
+    expect(pickIntervention({ ...base, triggers: ['sleep'], hour: 23 }).id).toBe('sleep-winddown')
+  })
+
+  it('grounds during the result wait at moderate intensity', () => {
+    expect(pickIntervention({ ...base, phase: 'result-wait', intensity: 5 }).id).toBe(
+      'ground-54321',
+    )
+  })
+
+  it('offers a reset walk when low-energy but able (daytime, no triggers)', () => {
+    expect(pickIntervention({ ...base, mood: 'Low', intensity: 5 }).id).toBe('activation-walk')
+  })
+
+  it('defaults a Bright mood to a light grounding', () => {
+    expect(pickIntervention({ ...base, mood: 'Bright' }).id).toBe('ground-54321')
   })
 
   it('always returns a defined intervention', () => {
@@ -111,7 +155,14 @@ describe('intervention rules engine', () => {
 
 describe('insights', () => {
   const checkIns: CheckIn[] = [
-    { id: '1', ts: NOW - 5 * DAY, mood: 'Drained', triggers: ['mock', 'ranks'], intensity: 8, note: '' },
+    {
+      id: '1',
+      ts: NOW - 5 * DAY,
+      mood: 'Drained',
+      triggers: ['mock', 'ranks'],
+      intensity: 8,
+      note: '',
+    },
     { id: '2', ts: NOW - 4 * DAY, mood: 'Low', triggers: ['ranks'], intensity: 6, note: '' },
     { id: '3', ts: NOW - 3 * DAY, mood: 'Okay', triggers: [], intensity: 4, note: '' },
     { id: '4', ts: NOW - 1 * DAY, mood: 'Steady', triggers: ['mock'], intensity: 3, note: '' },

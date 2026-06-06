@@ -4,6 +4,7 @@ import { INTERVENTIONS } from '../lib/interventions'
 import { Card, SectionTitle, stagger } from '../components/ui'
 import BreathingExercise from '../components/BreathingExercise'
 
+/** Toolkit page — a featured breathing exercise plus a grid of micro-interventions. */
 export default function Toolkit() {
   const { t, lang } = useT()
 

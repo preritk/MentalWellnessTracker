@@ -1,10 +1,5 @@
-import {
-  type CheckIn,
-  type JournalEntry,
-  type Mood,
-  type Store,
-  makeId,
-} from './storage'
+// Demo seed data: a realistic 21-day check-in/journal arc for the sample dataset.
+import { type CheckIn, type JournalEntry, type Mood, type Store, makeId } from './storage'
 
 const DAY = 24 * 60 * 60 * 1000
 
@@ -29,7 +24,12 @@ const MOOD_BY_DAY: { mood: Mood; triggers: string[]; intensity: number; note: st
   { mood: 'Steady', triggers: ['syllabus'], intensity: 4, note: 'Back on track.' },
   { mood: 'Bright', triggers: [], intensity: 2, note: '' },
   { mood: 'Okay', triggers: ['phone'], intensity: 5, note: '' },
-  { mood: 'Low', triggers: ['mock', 'ranks'], intensity: 6, note: 'Mock dip — but smaller this time.' },
+  {
+    mood: 'Low',
+    triggers: ['mock', 'ranks'],
+    intensity: 6,
+    note: 'Mock dip — but smaller this time.',
+  },
   { mood: 'Okay', triggers: ['self'], intensity: 4, note: 'Bounced back next day.' },
   { mood: 'Steady', triggers: [], intensity: 3, note: 'Calmer.' },
 ]

@@ -1,5 +1,7 @@
+// Curated stress-trigger taxonomy and lookup helpers.
 import type { Language } from './storage'
 
+/** A selectable stress trigger with localized labels. */
 export interface Trigger {
   id: string
   emoji: string
@@ -22,14 +24,17 @@ export const TRIGGERS: Trigger[] = [
 
 const TRIGGER_MAP = new Map(TRIGGERS.map((t) => [t.id, t]))
 
+/** Look up a trigger by id, or undefined if unknown. */
 export function getTrigger(id: string): Trigger | undefined {
   return TRIGGER_MAP.get(id)
 }
 
+/** Localized label for a trigger id, falling back to the id itself. */
 export function triggerLabel(id: string, lang: Language): string {
   return TRIGGER_MAP.get(id)?.label[lang] ?? id
 }
 
+/** Emoji for a trigger id, falling back to a bullet. */
 export function triggerEmoji(id: string): string {
   return TRIGGER_MAP.get(id)?.emoji ?? '•'
 }

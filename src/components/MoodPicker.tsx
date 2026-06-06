@@ -33,6 +33,7 @@ function step(from: Mood, delta: number): Mood {
   return MOOD_ORDER[next]
 }
 
+/** Accessible mood check-in: a radiogroup of moods plus triggers, intensity, and a note. */
 export default function MoodPicker({ onSubmit, lastMood }: MoodPickerProps) {
   const { t, lang } = useT()
   const [mood, setMood] = useState<Mood | null>(null)

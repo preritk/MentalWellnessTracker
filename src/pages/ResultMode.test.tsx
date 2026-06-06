@@ -23,9 +23,7 @@ describe('ResultMode', () => {
   it('renders the reassuring before-reveal message by default', () => {
     renderResultMode()
     expect(screen.getByRole('heading', { level: 1, name: 'Result Mode' })).toBeTruthy()
-    expect(
-      screen.getByText('Today might be big. You don’t have to face it alone.'),
-    ).toBeTruthy()
+    expect(screen.getByText('Today might be big. You don’t have to face it alone.')).toBeTruthy()
   })
 
   it('reveals the support state with at least one helpline when ready', async () => {

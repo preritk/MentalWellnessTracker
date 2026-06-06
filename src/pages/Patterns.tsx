@@ -1,13 +1,6 @@
 import { motion } from 'framer-motion'
 import { useMemo } from 'react'
-import {
-  Area,
-  AreaChart,
-  ResponsiveContainer,
-  Tooltip,
-  XAxis,
-  YAxis,
-} from 'recharts'
+import { Area, AreaChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts'
 import { Card, EmptyState, SectionTitle, cx, riseIn, stagger } from '../components/ui'
 import { useT } from '../lib/i18n'
 import {
@@ -30,6 +23,7 @@ const TREND_KEY: Record<WeeklyDigest['trend'], string> = {
   new: 'patterns.trend.new',
 }
 
+/** Patterns page — visualises mood over time, common triggers, and a weekly digest. */
 export default function Patterns() {
   const [store] = useStore()
   const { t, lang } = useT()
@@ -78,10 +72,7 @@ export default function Patterns() {
               className="w-full"
             >
               <ResponsiveContainer width="100%" height={220}>
-                <AreaChart
-                  data={series}
-                  margin={{ top: 10, right: 12, bottom: 0, left: 0 }}
-                >
+                <AreaChart data={series} margin={{ top: 10, right: 12, bottom: 0, left: 0 }}>
                   <defs>
                     <linearGradient id="moodRiver" x1="0" y1="0" x2="0" y2="1">
                       <stop
@@ -159,6 +150,7 @@ export default function Patterns() {
   )
 }
 
+/** Frequency-scaled tag cloud of recent triggers. */
 function TriggerMap({
   triggers,
   lang,
@@ -209,6 +201,7 @@ function TriggerMap({
   )
 }
 
+/** Compact weekly summary: check-in days, trend sentence, and bounce-back days. */
 function Digest({
   digest,
   t,

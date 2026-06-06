@@ -1,9 +1,11 @@
+// App-wide data model, session-scoped persistence, and the React store hook.
 import { useCallback, useEffect, useState } from 'react'
 
 // ---------------------------------------------------------------------------
 // Types — the shared data contract for the whole app
 // ---------------------------------------------------------------------------
 
+/** A self-reported mood, from worst ('Drained') to best ('Bright'). */
 export type Mood = 'Drained' | 'Low' | 'Okay' | 'Steady' | 'Bright'
 
 /** Ordered worst -> best. Used for trends and bounce-back math. */
@@ -14,9 +16,12 @@ export function moodScore(m: Mood): number {
   return MOOD_ORDER.indexOf(m) + 1
 }
 
+/** Supported exam track the student is preparing for. */
 export type ExamType = 'NEET' | 'JEE' | 'CUET' | 'UPSC' | 'BOARDS' | 'OTHER'
+/** UI/content language: English or Hindi. */
 export type Language = 'en' | 'hi'
 
+/** A single mood check-in logged by the student. */
 export interface CheckIn {
   id: string
   ts: number // epoch ms
@@ -26,6 +31,7 @@ export interface CheckIn {
   note: string
 }
 
+/** A saved journal entry (guided prompt or free-write). */
 export interface JournalEntry {
   id: string
   ts: number
@@ -34,6 +40,7 @@ export interface JournalEntry {
   mood?: Mood
 }
 
+/** A thumbs up/down on a suggested intervention. */
 export interface Feedback {
   id: string
   ts: number
@@ -41,6 +48,7 @@ export interface Feedback {
   helpful: boolean
 }
 
+/** The student's identity, exam context, and preferences. */
 export interface Profile {
   name: string
   exam: ExamType
@@ -51,12 +59,14 @@ export interface Profile {
   onboarded: boolean
 }
 
+/** A letter written to one's future self, sealed until a result date. */
 export interface SelfLetter {
   text: string
   sealedUntil: string // ISO yyyy-mm-dd
   written: number // epoch ms
 }
 
+/** App-level toggles for sharing, demo data, and accessibility. */
 export interface Settings {
   sharing: boolean // share encouragement signals (default off)
   seeded: boolean
@@ -64,6 +74,7 @@ export interface Settings {
   reducedMotion: boolean
 }
 
+/** The complete persisted application state. */
 export interface Store {
   version: number
   profile: Profile
@@ -78,6 +89,7 @@ export interface Store {
 // Persistence
 // ---------------------------------------------------------------------------
 
+/** sessionStorage key under which the serialized store lives. */
 export const STORAGE_KEY = 'mindmitra.v1'
 const SCHEMA_VERSION = 1
 
@@ -89,6 +101,7 @@ const SCHEMA_VERSION = 1
 const backing: Storage | undefined =
   typeof window !== 'undefined' ? window.sessionStorage : undefined
 
+/** A fresh, empty store at the current schema version. */
 export function defaultStore(): Store {
   return {
     version: SCHEMA_VERSION,
@@ -117,6 +130,7 @@ export function makeId(): string {
   return `${Date.now().toString(36)}-${Math.floor(Math.random() * 1e9).toString(36)}`
 }
 
+/** Load and migrate the store from sessionStorage, falling back to defaults on any error or version mismatch. */
 export function loadStore(): Store {
   try {
     const raw = backing?.getItem(STORAGE_KEY) ?? null
@@ -143,6 +157,7 @@ export function loadStore(): Store {
   }
 }
 
+/** Persist the store to sessionStorage; fails silently if storage is unavailable. */
 export function saveStore(store: Store): void {
   try {
     backing?.setItem(STORAGE_KEY, JSON.stringify(store))
@@ -151,6 +166,7 @@ export function saveStore(store: Store): void {
   }
 }
 
+/** Remove the persisted store from sessionStorage. */
 export function clearStore(): void {
   try {
     backing?.removeItem(STORAGE_KEY)
